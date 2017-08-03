@@ -6,11 +6,11 @@
     android:layout_height="match_parent"
     tools:context="derbyapps.ac.nz.catchybird.MainActivity">
 
-    <fragment android:name="derbyapps.ac.nz.catchybird.FirstFragment"
+    <fragment android:name="derbyapps.ac.nz.catchybird.MapFragment"
         android:id="@+id/first_fragment"
         android:layout_weight="1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:layout="@layout/first_fragment" />
+        tools:layout="@layout/map_fragment" />
 
 </android.support.constraint.ConstraintLayout>
