@@ -34,7 +34,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.map_fragment, container, false);
+        view = inflater.inflate(R.layout.fragment_map, container, false);
         return view;
     }
 
