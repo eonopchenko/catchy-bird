@@ -25,6 +25,7 @@ import com.microsoft.windowsazure.mobileservices.table.sync.synchandler.SimpleSy
 import com.squareup.okhttp.OkHttpClient;
 
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +54,14 @@ class BirdLocationClient {
      * Mobile Service Table used to access data
      */
     private MobileServiceTable<BirdLocationItem> mBirdLocationTable;
+
+    private List<BirdLocationListener> listeners = new ArrayList<BirdLocationListener> ();
+
+    public void setOnBirdLocationListener (BirdLocationListener listener)
+    {
+        // Store the listener object
+        this.listeners.add(listener);
+    }
 
     BirdLocationClient(Context context) {
 
@@ -121,6 +130,10 @@ class BirdLocationClient {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+
+                            for (BirdLocationListener listener : listeners) {
+                                listener.onBirdLocationAvailable(results);
+                            }
 
                             for (BirdLocationItem item : results) {
                                 assert true;

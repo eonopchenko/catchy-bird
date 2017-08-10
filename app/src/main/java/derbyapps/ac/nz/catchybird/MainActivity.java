@@ -10,5 +10,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         BirdLocationClient birdLocationClient = new BirdLocationClient(this);
+        birdLocationClient.setOnBirdLocationListener(
+                (BirdLocationListener)getFragmentManager().findFragmentById(R.id.first_fragment));
     }
 }

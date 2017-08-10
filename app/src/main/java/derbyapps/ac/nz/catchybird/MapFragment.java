@@ -1,6 +1,6 @@
 package derbyapps.ac.nz.catchybird;
 
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,15 +15,27 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.List;
+
 /**
  * Created by eugene on 3/08/2017.
  */
 
-public class MapFragment extends Fragment implements OnMapReadyCallback {
+public class MapFragment extends Fragment implements OnMapReadyCallback, BirdLocationListener {
 
     GoogleMap mGoogleMap;
     MapView mMapView;
     View mView;
+
+    public void onBirdLocationAvailable(List<BirdLocationItem> locations) {
+        for(BirdLocationItem location: locations) {
+            float lat = location.getLatitude();
+            float lng = location.getLongitude();
+            mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title(location.getBird()).snippet("Such a nice bird!"));
+            CameraPosition camPos = CameraPosition.builder().target(new LatLng(lat, lng)).zoom(16).bearing(0).tilt(45).build();
+            mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(camPos));
+        }
+    }
 
     public MapFragment() {
     }
@@ -57,13 +69,5 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         mGoogleMap = googleMap;
         mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(-36.848461, 174.762183)).title("Sky Tower").snippet("I hope to go there someday"));
-        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(-36.8651428, 174.72435)).title("Pukeko").snippet("Such a nice bird"));
-        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(-36.8809471, 174.702)).title("Pukeko").snippet("Such a nice bird"));
-        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(-36.867218, 174.720322)).title("Pukeko").snippet("Such a nice bird"));
-        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(-36.88101, 174.702)).title("Pukeko").snippet("Such a nice bird"));
-
-        CameraPosition camPosSkyTower = CameraPosition.builder().target(new LatLng(-36.848461, 174.762183)).zoom(16).bearing(0).tilt(45).build();
-        mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(camPosSkyTower));
     }
 }
