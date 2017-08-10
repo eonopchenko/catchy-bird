@@ -1,6 +1,6 @@
 package derbyapps.ac.nz.catchybird;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,9 +21,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
-    GoogleMap googleMap;
-    MapView mapView;
-    View view;
+    GoogleMap mGoogleMap;
+    MapView mMapView;
+    View mView;
 
     public MapFragment() {
     }
@@ -34,19 +34,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_map, container, false);
-        return view;
+        mView = inflater.inflate(R.layout.fragment_map, container, false);
+        return mView;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mapView = (MapView)view.findViewById(R.id.map);
-        if(mapView != null) {
-            mapView.onCreate(null);
-            mapView.onResume();
-            mapView.getMapAsync(this);
+        mMapView = (MapView)view.findViewById(R.id.map);
+        if(mMapView != null) {
+            mMapView.onCreate(null);
+            mMapView.onResume();
+            mMapView.getMapAsync(this);
         }
     }
 
@@ -55,15 +55,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         MapsInitializer.initialize(getContext());
 
-        this.googleMap = googleMap;
-        this.googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        this.googleMap.addMarker(new MarkerOptions().position(new LatLng(-36.848461, 174.762183)).title("Sky Tower").snippet("I hope to go there someday"));
-        this.googleMap.addMarker(new MarkerOptions().position(new LatLng(-36.8651428, 174.72435)).title("Pukeko").snippet("Such a nice bird"));
-        this.googleMap.addMarker(new MarkerOptions().position(new LatLng(-36.8809471, 174.702)).title("Pukeko").snippet("Such a nice bird"));
-        this.googleMap.addMarker(new MarkerOptions().position(new LatLng(-36.867218, 174.720322)).title("Pukeko").snippet("Such a nice bird"));
-        this.googleMap.addMarker(new MarkerOptions().position(new LatLng(-36.88101, 174.702)).title("Pukeko").snippet("Such a nice bird"));
+        mGoogleMap = googleMap;
+        mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(-36.848461, 174.762183)).title("Sky Tower").snippet("I hope to go there someday"));
+        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(-36.8651428, 174.72435)).title("Pukeko").snippet("Such a nice bird"));
+        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(-36.8809471, 174.702)).title("Pukeko").snippet("Such a nice bird"));
+        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(-36.867218, 174.720322)).title("Pukeko").snippet("Such a nice bird"));
+        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(-36.88101, 174.702)).title("Pukeko").snippet("Such a nice bird"));
 
         CameraPosition camPosSkyTower = CameraPosition.builder().target(new LatLng(-36.848461, 174.762183)).zoom(16).bearing(0).tilt(45).build();
-        this.googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(camPosSkyTower));
+        mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(camPosSkyTower));
     }
 }
