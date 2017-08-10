@@ -46,7 +46,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, BirdLoc
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_map, container, false);
+        mView = inflater.inflate(R.layout.map_fragment, container, false);
         return mView;
     }
 

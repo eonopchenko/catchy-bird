@@ -92,7 +92,6 @@ class BirdLocationClient {
         });
 
         // Get the Mobile Service Table instance to use
-
         mBirdLocationTable = mClient.getTable(BirdLocationItem.class);
 
         // Offline Sync
@@ -135,9 +134,6 @@ class BirdLocationClient {
                                 listener.onBirdLocationAvailable(results);
                             }
 
-                            for (BirdLocationItem item : results) {
-                                assert true;
-                            }
                         }
                     });
                 } catch (final Exception e){
@@ -154,7 +150,6 @@ class BirdLocationClient {
     /**
      * Refresh the list with the items in the Mobile Service Table
      */
-
     private List<BirdLocationItem> refreshItemsFromMobileServiceTable() throws ExecutionException, InterruptedException {
         try {
             return mBirdLocationTable.execute().get();
@@ -274,7 +269,6 @@ class BirdLocationClient {
         public ListenableFuture<ServiceFilterResponse> handleRequest(ServiceFilterRequest request, NextServiceFilterCallback nextServiceFilterCallback) {
 
             final SettableFuture<ServiceFilterResponse> resultFuture = SettableFuture.create();
-
 
             runOnUiThread(new Runnable() {
 
