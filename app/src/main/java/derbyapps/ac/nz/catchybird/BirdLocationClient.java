@@ -67,6 +67,11 @@ class BirdLocationClient {
 
         mContext = context;
 
+//        mProgressBar = (ProgressBar) findViewById(R.id.loadingProgressBar);
+//
+//        // Initialize the progress bar
+//        mProgressBar.setVisibility(ProgressBar.GONE);
+
         // Create the Mobile Service Client instance, using the provided
 
         // Mobile Service URL and key
