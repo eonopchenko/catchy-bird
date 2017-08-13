@@ -30,6 +30,8 @@ public class BirdLocationItem {
     @com.google.gson.annotations.SerializedName("id")
     private String mId;
 
+    boolean box;
+
     /**
      * BirdLocationItem constructor
      */
@@ -53,6 +55,7 @@ public class BirdLocationItem {
         this.setLatitude(latitude);
         this.setLongitude(longitude);
         this.setId(id);
+        this.box = false;
     }
 
     /**

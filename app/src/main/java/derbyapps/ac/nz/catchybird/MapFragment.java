@@ -30,18 +30,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, BirdLoc
     MapView mMapView;
     View mView;
 
+    ArrayList<BirdLocationItem> birdLocationItems = new ArrayList<BirdLocationItem>();
+    BirdLocationAdapter birdLocationAdapter;
+
     public void onBirdLocationAvailable(List<BirdLocationItem> locations) {
 
-        List<String> your_array_list = new ArrayList<String>();
-
-        // This is the array adapter, it takes the context of the activity as a
-        // first parameter, the type of list view as a second parameter and your
-        // array as a third parameter.
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                mView.getContext(),
-                android.R.layout.simple_list_item_1,
-                your_array_list );
-
+        birdLocationItems.clear();
         for(BirdLocationItem location: locations) {
             float lat = location.getLatitude();
             float lng = location.getLongitude();
@@ -49,13 +43,21 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, BirdLoc
             mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title(location.getBird()).snippet("Such a nice bird!"));
             CameraPosition camPos = CameraPosition.builder().target(new LatLng(lat, lng)).zoom(16).bearing(0).tilt(45).build();
             mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(camPos));
-            if(!your_array_list.contains(bird)) {
-                your_array_list.add(bird);
+            Boolean found = false;
+            for(BirdLocationItem item : birdLocationItems) {
+                if(item.getBird().equals(bird)) {
+                    found = true;
+                    break;
+                }
+            }
+            if(found == false) {
+                birdLocationItems.add(new BirdLocationItem(bird, lat, lng, location.getId()));
             }
         }
 
-        ListView lv = (ListView) mView.findViewById(R.id.bird_list);
-        lv.setAdapter(arrayAdapter);
+        birdLocationAdapter = new BirdLocationAdapter(getActivity(), birdLocationItems);
+        ListView lvMain = (ListView) mView.findViewById(R.id.lvMain);
+        lvMain.setAdapter(birdLocationAdapter);
     }
 
     public MapFragment() {

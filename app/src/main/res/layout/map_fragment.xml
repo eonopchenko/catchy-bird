@@ -102,11 +102,10 @@
             </LinearLayout>
 
             <ListView
-                android:id="@+id/bird_list"
+                android:id="@+id/lvMain"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:background="@color/colorLightgraySVG">
+                android:layout_height="match_parent"
+                android:layout_weight="1">
             </ListView>
 
 
@@ -116,7 +115,7 @@
                 <!--android:layout_height="0dp"-->
                 <!--android:layout_weight="1"-->
                 <!--android:background="@color/colorLightgraySVG"-->
-                <!--tools:listitem="@layout/row_list_bird">-->
+                <!--tools:listitem="@layout/item">-->
             <!--</ListView>-->
 
         </LinearLayout>

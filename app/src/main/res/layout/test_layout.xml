@@ -50,7 +50,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:background="@color/colorLightgraySVG"
-        tools:listitem="@layout/row_list_bird">
+        tools:listitem="@layout/item">
     </ListView>
 
     <!--<ScrollView-->
