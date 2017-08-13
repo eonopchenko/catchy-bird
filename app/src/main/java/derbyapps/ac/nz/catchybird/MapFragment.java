@@ -31,20 +31,42 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, BirdLoc
 
     public void onBirdLocationAvailable(List<BirdLocationItem> locations) {
 
+        List<BirdLocationItem> filter = new ArrayList<BirdLocationItem>();
+
         for(BirdLocationItem location: locations) {
 
             float lat = location.getLatitude();
             float lng = location.getLongitude();
             String bird = location.getBird();
-            String id = location.getId();
 
-            mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title(location.getBird()).snippet(id));
+            mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title(bird).snippet(lat + ", " + lng));
 
             CameraPosition camPos = CameraPosition.builder().target(new LatLng(lat, lng)).zoom(16).bearing(0).tilt(45).build();
             mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(camPos));
+
+            boolean exists = false;
+            for (BirdLocationItem item : filter) {
+                if(item.getBird().equals(bird)) {
+                    exists = true;
+                    break;
+                }
+            }
+            if(!exists) {
+                int img = R.mipmap.ic_launcher;
+                if(bird.equals("pukeko")) {
+                    img = R.mipmap.ic_bird_pukeko;
+                } else if (bird.equals("sparrow")) {
+                    img = R.mipmap.ic_bird_sparrow;
+                } else if (bird.equals("black swan")) {
+                    img = R.mipmap.ic_bird_black_swan;
+                } else if (bird.equals("grey duck")) {
+                    img = R.mipmap.ic_grey_duck;
+                }
+                filter.add(new BirdLocationItem(img, bird));
+            }
         }
 
-        BirdLocationAdapter adapter = new BirdLocationAdapter(getActivity(), (ArrayList<BirdLocationItem>) locations);
+        BirdLocationAdapter adapter = new BirdLocationAdapter(getActivity(), (ArrayList<BirdLocationItem>) filter);
         ListView lvMain = (ListView) mView.findViewById(R.id.lvBirdLocation);
         lvMain.setAdapter(adapter);
     }

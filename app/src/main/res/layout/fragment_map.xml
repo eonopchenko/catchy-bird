@@ -56,7 +56,7 @@
             android:layout_height="match_parent"
             tools:layout_editor_absoluteY="81dp"
             tools:layout_editor_absoluteX="0dp"
-            android:background="#ffffff"
+            android:background="@color/colorLightgraySVG"
             android:orientation="vertical"
             android:clickable="true"
             android:focusable="false"

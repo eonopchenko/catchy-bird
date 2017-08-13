@@ -30,32 +30,28 @@ public class BirdLocationItem {
     @com.google.gson.annotations.SerializedName("id")
     private String mId;
 
-    boolean box;
+    private boolean mBox;
+    private int mImg;
 
     /**
      * BirdLocationItem constructor
      */
     public BirdLocationItem() {
+        this.setBox(true);
     }
 
     /**
      * Initializes a new BirdLocationItem
      *
+     * @param img
+     *            The image identifier
      * @param bird
      *            The row_bird_location bird
-     * @param latitude
-     *            The row_bird_location latitude
-     * @param longitude
-     *            The row_bird_location longitude
-     * @param id
-     *            The row_bird_location id
      */
-    public BirdLocationItem(String bird, float latitude, float longitude, String id) {
+    public BirdLocationItem(int img, String bird) {
+        this.setImg(img);
         this.setBird(bird);
-        this.setLatitude(latitude);
-        this.setLongitude(longitude);
-        this.setId(id);
-        this.box = false;
+        this.setBox(true);
     }
 
     /**
@@ -124,5 +120,21 @@ public class BirdLocationItem {
      */
     public final void setId(String id) {
         mId = id;
+    }
+
+    public boolean isBox() {
+        return mBox;
+    }
+
+    public void setBox(boolean box) {
+        this.mBox = box;
+    }
+
+    public int getImg() {
+        return mImg;
+    }
+
+    public void setImg(int img) {
+        this.mImg = img;
     }
 }

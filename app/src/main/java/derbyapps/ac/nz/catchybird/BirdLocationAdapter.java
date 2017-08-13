@@ -56,12 +56,12 @@ public class BirdLocationAdapter extends BaseAdapter {
 
         ((TextView) view.findViewById(R.id.tvRowBird)).setText(p.getBird());
         ((TextView) view.findViewById(R.id.tvRowPrice)).setText(100 + "");
-        ((ImageView) view.findViewById(R.id.ivRowBird)).setImageResource(R.mipmap.ic_launcher);
+        ((ImageView) view.findViewById(R.id.ivRowBird)).setImageResource(p.getImg());
 
         CheckBox cbBuy = (CheckBox) view.findViewById(R.id.cbRowBird);
         cbBuy.setOnCheckedChangeListener(myCheckChangeList);
         cbBuy.setTag(position);
-        cbBuy.setChecked(p.box);
+        cbBuy.setChecked(p.isBox());
         return view;
     }
 
@@ -72,7 +72,7 @@ public class BirdLocationAdapter extends BaseAdapter {
     ArrayList<BirdLocationItem> getBox() {
         ArrayList<BirdLocationItem> box = new ArrayList<BirdLocationItem>();
         for (BirdLocationItem p : mObjects) {
-            if (p.box)
+            if (p.isBox())
                 box.add(p);
         }
         return box;
@@ -81,7 +81,7 @@ public class BirdLocationAdapter extends BaseAdapter {
     CompoundButton.OnCheckedChangeListener myCheckChangeList = new CompoundButton.OnCheckedChangeListener() {
         public void onCheckedChanged(CompoundButton buttonView,
                                      boolean isChecked) {
-            getBirdLocationItem((Integer) buttonView.getTag()).box = isChecked;
+            getBirdLocationItem((Integer) buttonView.getTag()).setBox(isChecked);
         }
     };
 }
