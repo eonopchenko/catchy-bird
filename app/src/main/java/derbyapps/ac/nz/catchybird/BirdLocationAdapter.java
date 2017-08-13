@@ -49,16 +49,16 @@ public class BirdLocationAdapter extends BaseAdapter {
 
         View view = convertView;
         if (view == null) {
-            view = mInflater.inflate(R.layout.item, parent, false);
+            view = mInflater.inflate(R.layout.row_bird_location, parent, false);
         }
 
         BirdLocationItem p = getBirdLocationItem(position);
 
-        ((TextView) view.findViewById(R.id.tvBird)).setText(p.getBird());
-        ((TextView) view.findViewById(R.id.tvPrice)).setText(100 + "");
-        ((ImageView) view.findViewById(R.id.ivImage)).setImageResource(R.mipmap.ic_launcher);
+        ((TextView) view.findViewById(R.id.tvRowBird)).setText(p.getBird());
+        ((TextView) view.findViewById(R.id.tvRowPrice)).setText(100 + "");
+        ((ImageView) view.findViewById(R.id.ivRowBird)).setImageResource(R.mipmap.ic_launcher);
 
-        CheckBox cbBuy = (CheckBox) view.findViewById(R.id.cbBox);
+        CheckBox cbBuy = (CheckBox) view.findViewById(R.id.cbRowBird);
         cbBuy.setOnCheckedChangeListener(myCheckChangeList);
         cbBuy.setTag(position);
         cbBuy.setChecked(p.box);

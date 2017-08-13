@@ -42,13 +42,13 @@ public class BirdLocationItem {
      * Initializes a new BirdLocationItem
      *
      * @param bird
-     *            The item bird
+     *            The row_bird_location bird
      * @param latitude
-     *            The item latitude
+     *            The row_bird_location latitude
      * @param longitude
-     *            The item longitude
+     *            The row_bird_location longitude
      * @param id
-     *            The item id
+     *            The row_bird_location id
      */
     public BirdLocationItem(String bird, float latitude, float longitude, String id) {
         this.setBird(bird);
@@ -59,14 +59,14 @@ public class BirdLocationItem {
     }
 
     /**
-     * Returns the item bird
+     * Returns the row_bird_location bird
      */
     public String getBird() {
         return mBird;
     }
 
     /**
-     * Sets the item bird
+     * Sets the row_bird_location bird
      *
      * @param bird
      *            bird to set
@@ -76,14 +76,14 @@ public class BirdLocationItem {
     }
 
     /**
-     * Returns the item latitude
+     * Returns the row_bird_location latitude
      */
     public float getLatitude() {
         return mLatitude;
     }
 
     /**
-     * Sets the item latitude
+     * Sets the row_bird_location latitude
      *
      * @param latitude
      *            latitude to set
@@ -93,14 +93,14 @@ public class BirdLocationItem {
     }
 
     /**
-     * Returns the item longitude
+     * Returns the row_bird_location longitude
      */
     public float getLongitude() {
         return mLongitude;
     }
 
     /**
-     * Sets the item longitude
+     * Sets the row_bird_location longitude
      *
      * @param longitude
      *            longitude to set
@@ -110,14 +110,14 @@ public class BirdLocationItem {
     }
 
     /**
-     * Returns the item id
+     * Returns the row_bird_location id
      */
     public String getId() {
         return mId;
     }
 
     /**
-     * Sets the item id
+     * Sets the row_bird_location id
      *
      * @param id
      *            id to set

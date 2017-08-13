@@ -7,7 +7,7 @@
     tools:context="derbyapps.ac.nz.catchybird.MainActivity">
 
     <fragment
-        android:id="@+id/first_fragment"
+        android:id="@+id/frMap"
         android:name="derbyapps.ac.nz.catchybird.MapFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -22,6 +22,6 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5"
-        tools:layout="@layout/map_fragment" />
+        tools:layout="@layout/fragment_map" />
 
 </android.support.constraint.ConstraintLayout>

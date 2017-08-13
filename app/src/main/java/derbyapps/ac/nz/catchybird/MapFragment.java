@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -30,37 +29,24 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, BirdLoc
     MapView mMapView;
     View mView;
 
-    ArrayList<BirdLocationItem> birdLocationItems = new ArrayList<BirdLocationItem>();
-    BirdLocationAdapter birdLocationAdapter;
-
     public void onBirdLocationAvailable(List<BirdLocationItem> locations) {
 
-        birdLocationItems.clear();
         for(BirdLocationItem location: locations) {
+
             float lat = location.getLatitude();
             float lng = location.getLongitude();
             String bird = location.getBird();
-            mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title(location.getBird()).snippet("Such a nice bird!"));
+            String id = location.getId();
+
+            mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title(location.getBird()).snippet(id));
+
             CameraPosition camPos = CameraPosition.builder().target(new LatLng(lat, lng)).zoom(16).bearing(0).tilt(45).build();
             mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(camPos));
-            Boolean found = false;
-            for(BirdLocationItem item : birdLocationItems) {
-                if(item.getBird().equals(bird)) {
-                    found = true;
-                    break;
-                }
-            }
-            if(found == false) {
-                birdLocationItems.add(new BirdLocationItem(bird, lat, lng, location.getId()));
-            }
         }
 
-        birdLocationAdapter = new BirdLocationAdapter(getActivity(), birdLocationItems);
-        ListView lvMain = (ListView) mView.findViewById(R.id.lvMain);
-        lvMain.setAdapter(birdLocationAdapter);
-    }
-
-    public MapFragment() {
+        BirdLocationAdapter adapter = new BirdLocationAdapter(getActivity(), (ArrayList<BirdLocationItem>) locations);
+        ListView lvMain = (ListView) mView.findViewById(R.id.lvBirdLocation);
+        lvMain.setAdapter(adapter);
     }
 
     @Override
@@ -69,7 +55,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, BirdLoc
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.map_fragment, container, false);
+        mView = inflater.inflate(R.layout.fragment_map, container, false);
         return mView;
     }
 
