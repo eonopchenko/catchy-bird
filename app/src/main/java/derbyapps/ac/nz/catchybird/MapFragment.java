@@ -12,6 +12,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -39,7 +40,23 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, BirdLoc
             float lng = location.getLongitude();
             String bird = location.getBird();
 
-            mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title(bird).snippet(lat + ", " + lng));
+            int icon = R.mipmap.ic_map_pin_dark_red;
+            int img = R.mipmap.ic_launcher;
+            if(bird.equals("pukeko")) {
+                icon = R.mipmap.ic_map_pin_dark_red;
+                img = R.mipmap.ic_bird_pukeko;
+            } else if (bird.equals("sparrow")) {
+                icon = R.mipmap.ic_map_pin_dark_pastel_green;
+                img = R.mipmap.ic_bird_sparrow;
+            } else if (bird.equals("black swan")) {
+                icon = R.mipmap.ic_map_pin_azure;
+                img = R.mipmap.ic_bird_black_swan;
+            } else if (bird.equals("grey duck")) {
+                icon = R.mipmap.ic_map_pin_dark_lavender;
+                img = R.mipmap.ic_bird_grey_duck;
+            }
+
+            mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title(bird).snippet(lat + ", " + lng).icon(BitmapDescriptorFactory.fromResource(icon)));
 
             CameraPosition camPos = CameraPosition.builder().target(new LatLng(lat, lng)).zoom(16).bearing(0).tilt(45).build();
             mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(camPos));
@@ -48,21 +65,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, BirdLoc
             for (BirdLocationItem item : filter) {
                 if(item.getBird().equals(bird)) {
                     exists = true;
+                    item.incCount();
                     break;
                 }
             }
             if(!exists) {
-                int img = R.mipmap.ic_launcher;
-                if(bird.equals("pukeko")) {
-                    img = R.mipmap.ic_bird_pukeko;
-                } else if (bird.equals("sparrow")) {
-                    img = R.mipmap.ic_bird_sparrow;
-                } else if (bird.equals("black swan")) {
-                    img = R.mipmap.ic_bird_black_swan;
-                } else if (bird.equals("grey duck")) {
-                    img = R.mipmap.ic_grey_duck;
-                }
-                filter.add(new BirdLocationItem(img, bird));
+                filter.add(new BirdLocationItem(1, img, bird));
             }
         }
 

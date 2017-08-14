@@ -32,6 +32,7 @@ public class BirdLocationItem {
 
     private boolean mBox;
     private int mImg;
+    private int mCount;
 
     /**
      * BirdLocationItem constructor
@@ -48,7 +49,8 @@ public class BirdLocationItem {
      * @param bird
      *            The row_bird_location bird
      */
-    public BirdLocationItem(int img, String bird) {
+    public BirdLocationItem(int count, int img, String bird) {
+        this.setCount(count);
         this.setImg(img);
         this.setBird(bird);
         this.setBox(true);
@@ -136,5 +138,17 @@ public class BirdLocationItem {
 
     public void setImg(int img) {
         this.mImg = img;
+    }
+
+    public int getCount() {
+        return mCount;
+    }
+
+    public void setCount(int count) {
+        mCount = count;
+    }
+
+    public void incCount() {
+        mCount++;
     }
 }

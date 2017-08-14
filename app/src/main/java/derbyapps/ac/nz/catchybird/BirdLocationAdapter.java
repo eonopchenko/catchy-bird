@@ -55,7 +55,7 @@ public class BirdLocationAdapter extends BaseAdapter {
         BirdLocationItem p = getBirdLocationItem(position);
 
         ((TextView) view.findViewById(R.id.tvRowBird)).setText(p.getBird());
-        ((TextView) view.findViewById(R.id.tvRowPrice)).setText(100 + "");
+        ((TextView) view.findViewById(R.id.tvRowCount)).setText(p.getCount() + "");
         ((ImageView) view.findViewById(R.id.ivRowBird)).setImageResource(p.getImg());
 
         CheckBox cbBuy = (CheckBox) view.findViewById(R.id.cbRowBird);
