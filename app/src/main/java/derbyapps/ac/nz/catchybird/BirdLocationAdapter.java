@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by eugene on 13/08/2017.
@@ -18,25 +19,32 @@ import java.util.ArrayList;
 
 public class BirdLocationAdapter extends BaseAdapter {
 
-    Context mContext;
-    LayoutInflater mInflater;
-    ArrayList<BirdLocationItem> mObjects;
+    private Context mContext;
+    private LayoutInflater mInflater;
+    private ArrayList<BirdLocationItem> mBirds;
+    private List<BirdFilterListener> filterListeners = new ArrayList<BirdFilterListener> ();
 
     public BirdLocationAdapter(Context context, ArrayList<BirdLocationItem> birds) {
         mContext = context;
-        mObjects = birds;
+        mBirds = birds;
         mInflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
+    public void setOnBirdFilterListener (BirdFilterListener listener)
+    {
+        // Store the listener object
+        this.filterListeners.add(listener);
+    }
+
     @Override
     public int getCount() {
-        return mObjects.size();
+        return mBirds.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return mObjects.get(position);
+        return mBirds.get(position);
     }
 
     @Override
@@ -55,6 +63,7 @@ public class BirdLocationAdapter extends BaseAdapter {
         BirdLocationItem p = getBirdLocationItem(position);
 
         ((TextView) view.findViewById(R.id.tvRowBird)).setText(p.getBird());
+
         ((TextView) view.findViewById(R.id.tvRowCount)).setText(p.getCount() + "");
         ((ImageView) view.findViewById(R.id.ivRowBird)).setImageResource(p.getImg());
 
@@ -71,7 +80,7 @@ public class BirdLocationAdapter extends BaseAdapter {
 
     ArrayList<BirdLocationItem> getBox() {
         ArrayList<BirdLocationItem> box = new ArrayList<BirdLocationItem>();
-        for (BirdLocationItem p : mObjects) {
+        for (BirdLocationItem p : mBirds) {
             if (p.isBox())
                 box.add(p);
         }
@@ -82,6 +91,10 @@ public class BirdLocationAdapter extends BaseAdapter {
         public void onCheckedChanged(CompoundButton buttonView,
                                      boolean isChecked) {
             getBirdLocationItem((Integer) buttonView.getTag()).setBox(isChecked);
+
+            for (BirdFilterListener listener : filterListeners) {
+                listener.onBirdFilter(mBirds);
+            }
         }
     };
 }

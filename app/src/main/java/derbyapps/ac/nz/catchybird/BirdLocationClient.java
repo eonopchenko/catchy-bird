@@ -55,12 +55,12 @@ class BirdLocationClient {
      */
     private MobileServiceTable<BirdLocationItem> mBirdLocationTable;
 
-    private List<BirdLocationListener> listeners = new ArrayList<BirdLocationListener> ();
+    private List<BirdLocationAvailableListener> locationListeners = new ArrayList<BirdLocationAvailableListener> ();
 
-    public void setOnBirdLocationListener (BirdLocationListener listener)
+    public void setOnBirdLocationListener (BirdLocationAvailableListener listener)
     {
         // Store the listener object
-        this.listeners.add(listener);
+        this.locationListeners.add(listener);
     }
 
     BirdLocationClient(Context context) {
@@ -135,7 +135,7 @@ class BirdLocationClient {
                         @Override
                         public void run() {
 
-                            for (BirdLocationListener listener : listeners) {
+                            for (BirdLocationAvailableListener listener : locationListeners) {
                                 listener.onBirdLocationAvailable(results);
                             }
 

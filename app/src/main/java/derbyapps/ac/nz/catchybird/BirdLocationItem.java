@@ -1,5 +1,7 @@
 package derbyapps.ac.nz.catchybird;
 
+import com.google.android.gms.maps.model.Marker;
+
 /**
  * Created by eugene on 10/08/2017.
  */
@@ -33,6 +35,7 @@ public class BirdLocationItem {
     private boolean mBox;
     private int mImg;
     private int mCount;
+    private Marker mMarker;
 
     /**
      * BirdLocationItem constructor
@@ -150,5 +153,13 @@ public class BirdLocationItem {
 
     public void incCount() {
         mCount++;
+    }
+
+    public Marker getMarker() {
+        return mMarker;
+    }
+
+    public void setMarker(Marker marker) {
+        mMarker = marker;
     }
 }

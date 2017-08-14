@@ -1,9 +1,8 @@
 package derbyapps.ac.nz.catchybird;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     @Override
@@ -12,9 +11,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         MainActivity activity = this;
         BirdLocationClient birdLocationClient = new BirdLocationClient(this);
-        birdLocationClient.setOnBirdLocationListener(
-                (BirdLocationListener)getFragmentManager().findFragmentById(R.id.frMap));
-
-
+        Fragment frMap = getFragmentManager().findFragmentById(R.id.frMap);
+        birdLocationClient.setOnBirdLocationListener((BirdLocationAvailableListener)frMap);
     }
 }
