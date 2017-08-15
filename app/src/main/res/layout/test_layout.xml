@@ -21,20 +21,25 @@
 
         <TextView
             android:id="@+id/name"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
             android:text="Birds"
             android:textColor="@android:color/white"
             android:textSize="16sp" />
 
+        <ProgressBar
+            android:id="@+id/progressBar4"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
         <Switch
             android:id="@+id/switch2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:gravity="center_vertical|end"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"

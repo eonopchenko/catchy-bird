@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -87,6 +88,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, BirdLoc
         adapter.setOnBirdFilterListener(this);
         ListView lvBirdList = (ListView) mView.findViewById(R.id.lvBirdList);
         lvBirdList.setAdapter(adapter);
+
+        ((ProgressBar)mView.findViewById(R.id.progressBar)).setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -117,7 +120,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, BirdLoc
         MapsInitializer.initialize(getContext());
 
         mGoogleMap = googleMap;
-        mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        mGoogleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         mGoogleMap.setPadding(0, 0, 0, 140);
     }
 
