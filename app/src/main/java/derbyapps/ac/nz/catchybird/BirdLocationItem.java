@@ -9,6 +9,11 @@ import com.google.android.gms.maps.model.Marker;
 public class BirdLocationItem {
 
     /**
+     * Item marker pointer
+     */
+    private Marker mMarker;
+
+    /**
      * Item bird
      */
     @com.google.gson.annotations.SerializedName("bird")
@@ -32,42 +37,15 @@ public class BirdLocationItem {
     @com.google.gson.annotations.SerializedName("id")
     private String mId;
 
-    private boolean mBox;
-    private int mImg;
-    private int mCount;
-    private Marker mMarker;
-
     /**
-     * BirdLocationItem constructor
-     */
-    public BirdLocationItem() {
-        this.setBox(true);
-    }
-
-    /**
-     * Initializes a new BirdLocationItem
-     *
-     * @param img
-     *            The image identifier
-     * @param bird
-     *            The row_bird_location bird
-     */
-    public BirdLocationItem(int count, int img, String bird) {
-        this.setCount(count);
-        this.setImg(img);
-        this.setBird(bird);
-        this.setBox(true);
-    }
-
-    /**
-     * Returns the row_bird_location bird
+     * Returns the row_bird_list bird
      */
     public String getBird() {
         return mBird;
     }
 
     /**
-     * Sets the row_bird_location bird
+     * Sets the row_bird_list bird
      *
      * @param bird
      *            bird to set
@@ -77,14 +55,14 @@ public class BirdLocationItem {
     }
 
     /**
-     * Returns the row_bird_location latitude
+     * Returns the row_bird_list latitude
      */
     public float getLatitude() {
         return mLatitude;
     }
 
     /**
-     * Sets the row_bird_location latitude
+     * Sets the row_bird_list latitude
      *
      * @param latitude
      *            latitude to set
@@ -94,14 +72,14 @@ public class BirdLocationItem {
     }
 
     /**
-     * Returns the row_bird_location longitude
+     * Returns the row_bird_list longitude
      */
     public float getLongitude() {
         return mLongitude;
     }
 
     /**
-     * Sets the row_bird_location longitude
+     * Sets the row_bird_list longitude
      *
      * @param longitude
      *            longitude to set
@@ -111,14 +89,14 @@ public class BirdLocationItem {
     }
 
     /**
-     * Returns the row_bird_location id
+     * Returns the row_bird_list id
      */
     public String getId() {
         return mId;
     }
 
     /**
-     * Sets the row_bird_location id
+     * Sets the row_bird_list id
      *
      * @param id
      *            id to set
@@ -127,38 +105,19 @@ public class BirdLocationItem {
         mId = id;
     }
 
-    public boolean isBox() {
-        return mBox;
-    }
-
-    public void setBox(boolean box) {
-        this.mBox = box;
-    }
-
-    public int getImg() {
-        return mImg;
-    }
-
-    public void setImg(int img) {
-        this.mImg = img;
-    }
-
-    public int getCount() {
-        return mCount;
-    }
-
-    public void setCount(int count) {
-        mCount = count;
-    }
-
-    public void incCount() {
-        mCount++;
-    }
-
+    /**
+     * Returns
+     */
     public Marker getMarker() {
         return mMarker;
     }
 
+    /**
+     * Sets
+     *
+     * @param marker
+     *            marker to set
+     */
     public void setMarker(Marker marker) {
         mMarker = marker;
     }

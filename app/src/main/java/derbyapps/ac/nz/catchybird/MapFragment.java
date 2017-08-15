@@ -31,16 +31,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, BirdLoc
     View mView;
     List<BirdLocationItem> mBirdList;
 
-    public MapFragment() {
-        mBirdList = new ArrayList<>();
-    }
-
     @Override
     public void onBirdLocationAvailable(List<BirdLocationItem> birds) {
 
         mBirdList = new ArrayList<>(birds);
 
-        List<BirdLocationItem> filter = new ArrayList<BirdLocationItem>();
+        List<BirdListItem> filter = new ArrayList<BirdListItem>();
 
         for(BirdLocationItem birdLocation: mBirdList) {
 
@@ -48,34 +44,34 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, BirdLoc
             float lng = birdLocation.getLongitude();
             String bird = birdLocation.getBird();
 
-            int icon = R.mipmap.ic_map_pin_white;
+            int markerIcon = R.mipmap.ic_map_pin_white;
             int img = R.mipmap.ic_launcher_round;
             switch (bird) {
                 case "pukeko":
-                    icon = R.mipmap.ic_map_pin_dark_red;
+                    markerIcon = R.mipmap.ic_map_pin_dark_red;
                     img = R.mipmap.ic_bird_pukeko;
                     break;
                 case "sparrow":
-                    icon = R.mipmap.ic_map_pin_dark_pastel_green;
+                    markerIcon = R.mipmap.ic_map_pin_dark_pastel_green;
                     img = R.mipmap.ic_bird_sparrow;
                     break;
                 case "black swan":
-                    icon = R.mipmap.ic_map_pin_azure;
+                    markerIcon = R.mipmap.ic_map_pin_azure;
                     img = R.mipmap.ic_bird_black_swan;
                     break;
                 case "grey duck":
-                    icon = R.mipmap.ic_map_pin_dark_lavender;
+                    markerIcon = R.mipmap.ic_map_pin_dark_lavender;
                     img = R.mipmap.ic_bird_grey_duck;
                     break;
             }
 
-            birdLocation.setMarker(mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title(bird).snippet(lat + ", " + lng).icon(BitmapDescriptorFactory.fromResource(icon))));
+            birdLocation.setMarker(mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title(bird).snippet(lat + ", " + lng).icon(BitmapDescriptorFactory.fromResource(markerIcon))));
 
             CameraPosition camPos = CameraPosition.builder().target(new LatLng(lat, lng)).zoom(16).bearing(0).tilt(45).build();
             mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(camPos));
 
             boolean exists = false;
-            for (BirdLocationItem item : filter) {
+            for (BirdListItem item : filter) {
                 if(item.getBird().equals(bird)) {
                     exists = true;
                     item.incCount();
@@ -83,14 +79,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, BirdLoc
                 }
             }
             if(!exists) {
-                filter.add(new BirdLocationItem(1, img, bird));
+                filter.add(new BirdListItem(bird, 1, img));
             }
         }
 
-        BirdLocationAdapter adapter = new BirdLocationAdapter(getActivity(), (ArrayList<BirdLocationItem>) filter);
+        BirdListAdapter adapter = new BirdListAdapter(getActivity(), (ArrayList<BirdListItem>) filter);
         adapter.setOnBirdFilterListener(this);
-        ListView lvBirdLocation = (ListView) mView.findViewById(R.id.lvBirdLocation);
-        lvBirdLocation.setAdapter(adapter);
+        ListView lvBirdList = (ListView) mView.findViewById(R.id.lvBirdList);
+        lvBirdList.setAdapter(adapter);
     }
 
     @Override
@@ -126,8 +122,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, BirdLoc
     }
 
     @Override
-    public void onBirdFilter(List<BirdLocationItem> birds) {
-        for(BirdLocationItem birdFilter: birds) {
+    public void onBirdFilter(List<BirdListItem> birds) {
+        for(BirdListItem birdFilter: birds) {
             for(BirdLocationItem birdLocation: mBirdList) {
                 if(birdLocation.getBird().equals(birdFilter.getBird())) {
                     birdLocation.getMarker().setVisible(birdFilter.isBox());

@@ -7,5 +7,5 @@ import java.util.List;
  */
 
 interface BirdFilterListener {
-    void onBirdFilter(List<BirdLocationItem> birds);
+    void onBirdFilter(List<BirdListItem> birds);
 }
