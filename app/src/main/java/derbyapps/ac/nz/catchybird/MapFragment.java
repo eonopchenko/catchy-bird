@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Switch;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -93,12 +95,24 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, BirdLoc
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); }
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_map, container, false);
+        Switch swMapType = (Switch) mView.findViewById(R.id.swMapType);
+        swMapType.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    mGoogleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+                } else {
+                    mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                }
+            }
+        });
         return mView;
     }
 
@@ -120,7 +134,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, BirdLoc
         MapsInitializer.initialize(getContext());
 
         mGoogleMap = googleMap;
-        mGoogleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mGoogleMap.setPadding(0, 0, 0, 140);
     }
 
