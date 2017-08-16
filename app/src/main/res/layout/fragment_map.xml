@@ -101,7 +101,8 @@
                     android:paddingRight="10dp"
                     android:text="Hybrid Map"
                     android:textColor="@android:color/white"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    android:checked="true"/>
 
             </LinearLayout>
 

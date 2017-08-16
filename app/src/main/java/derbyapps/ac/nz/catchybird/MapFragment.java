@@ -134,7 +134,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, BirdLoc
         MapsInitializer.initialize(getContext());
 
         mGoogleMap = googleMap;
-        mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        mGoogleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         mGoogleMap.setPadding(0, 0, 0, 140);
     }
 
