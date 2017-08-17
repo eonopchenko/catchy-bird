@@ -32,7 +32,6 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-import static com.google.android.gms.internal.zzagz.runOnUiThread;
 
 /**
  * Created by eugene on 10/08/2017.
@@ -66,11 +65,6 @@ class BirdLocationClient {
     BirdLocationClient(Context context) {
 
         mContext = context;
-
-//        mProgressBar = (ProgressBar) findViewById(R.id.loadingProgressBar);
-//
-//        // Initialize the progress bar
-//        mProgressBar.setVisibility(ProgressBar.GONE);
 
         // Create the Mobile Service Client instance, using the provided
 
@@ -122,30 +116,27 @@ class BirdLocationClient {
         // adapter
 
         AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>(){
+
+            List<BirdLocationItem> results = new ArrayList<>();
+
             @Override
             protected Void doInBackground(Void... params) {
 
                 try {
-                    final List<BirdLocationItem> results = refreshItemsFromMobileServiceTable();
-
-                    //Offline Sync
-                    //final List<BirdLocationItem> results = refreshItemsFromMobileServiceTableSyncTable();
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            for (BirdLocationAvailableListener listener : locationListeners) {
-                                listener.onBirdLocationAvailable(results);
-                            }
-
-                        }
-                    });
+                    results = refreshItemsFromMobileServiceTable();
                 } catch (final Exception e){
-                    createAndShowDialogFromTask(e, "Error");
+//                    createAndShowDialogFromTask(e, "Error");
                 }
 
                 return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                for (BirdLocationAvailableListener listener : locationListeners) {
+                    listener.onBirdLocationAvailable(results);
+                }
             }
         };
 
@@ -196,7 +187,7 @@ class BirdLocationClient {
                     syncContext.initialize(localStore, handler).get();
 
                 } catch (final Exception e) {
-                    createAndShowDialogFromTask(e, "Error");
+//                    createAndShowDialogFromTask(e, "Error");
                 }
 
                 return null;
@@ -204,55 +195,6 @@ class BirdLocationClient {
         };
 
         return runAsyncTask(task);
-    }
-
-    /**
-     * Creates a dialog and shows it
-     *
-     * @param exception
-     *            The exception to show in the dialog
-     * @param title
-     *            The dialog title
-     */
-    private void createAndShowDialogFromTask(final Exception exception, String title) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                createAndShowDialog(exception, "Error");
-            }
-        });
-    }
-
-    /**
-     * Creates a dialog and shows it
-     *
-     * @param exception
-     *            The exception to show in the dialog
-     * @param title
-     *            The dialog title
-     */
-    private void createAndShowDialog(Exception exception, String title) {
-        Throwable ex = exception;
-        if(exception.getCause() != null){
-            ex = exception.getCause();
-        }
-        createAndShowDialog(ex.getMessage(), title);
-    }
-
-    /**
-     * Creates a dialog and shows it
-     *
-     * @param message
-     *            The dialog message
-     * @param title
-     *            The dialog title
-     */
-    private void createAndShowDialog(final String message, final String title) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-
-        builder.setMessage(message);
-        builder.setTitle(title);
-        builder.create().show();
     }
 
     /**
@@ -275,14 +217,6 @@ class BirdLocationClient {
 
             final SettableFuture<ServiceFilterResponse> resultFuture = SettableFuture.create();
 
-            runOnUiThread(new Runnable() {
-
-                @Override
-                public void run() {
-//                    if (mProgressBar != null) mProgressBar.setVisibility(ProgressBar.VISIBLE);
-                }
-            });
-
             ListenableFuture<ServiceFilterResponse> future = nextServiceFilterCallback.onNext(request);
 
             Futures.addCallback(future, new FutureCallback<ServiceFilterResponse>() {
@@ -293,14 +227,6 @@ class BirdLocationClient {
 
                 @Override
                 public void onSuccess(ServiceFilterResponse response) {
-                    runOnUiThread(new Runnable() {
-
-                        @Override
-                        public void run() {
-//                            if (mProgressBar != null) mProgressBar.setVisibility(ProgressBar.GONE);
-                        }
-                    });
-
                     resultFuture.set(response);
                 }
             });
