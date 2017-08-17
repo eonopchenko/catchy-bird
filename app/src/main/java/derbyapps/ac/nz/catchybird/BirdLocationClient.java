@@ -40,11 +40,6 @@ import java.util.concurrent.TimeUnit;
 class BirdLocationClient {
 
     /**
-     * Context reference
-     */
-    private Context mContext;
-
-    /**
      * Mobile Service Client reference
      */
     private MobileServiceClient mClient;
@@ -56,7 +51,7 @@ class BirdLocationClient {
 
     private List<BirdLocationAvailableListener> locationListeners = new ArrayList<BirdLocationAvailableListener> ();
 
-    public void setOnBirdLocationListener (BirdLocationAvailableListener listener)
+    void setOnBirdLocationListener(BirdLocationAvailableListener listener)
     {
         // Store the listener object
         this.locationListeners.add(listener);
@@ -64,16 +59,12 @@ class BirdLocationClient {
 
     BirdLocationClient(Context context) {
 
-        mContext = context;
-
         // Create the Mobile Service Client instance, using the provided
-
         // Mobile Service URL and key
         try {
-
             mClient = new MobileServiceClient(
                     "https://catchy-bird.azurewebsites.net",
-                    mContext).withFilter(new BirdLocationClient.ProgressFilter());
+                    context).withFilter(new BirdLocationClient.ProgressFilter());
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -96,7 +87,7 @@ class BirdLocationClient {
         // Offline Sync
         //mBirdLocationTable = mClient.getSyncTable("BirdLocationItem", BirdLocationItem.class);
 
-        //Init local storage
+        // Init local storage
         try {
             initLocalStore().get();
         } catch (InterruptedException | ExecutionException | MobileServiceLocalStoreException e) {
@@ -112,9 +103,7 @@ class BirdLocationClient {
      */
     private void refreshItemsFromTable() {
 
-        // Get the items that weren't marked as completed and add them in the
-        // adapter
-
+        // Get the items that weren't marked as completed and add them in the adapter
         AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>(){
 
             List<BirdLocationItem> results = new ArrayList<>();
@@ -124,8 +113,8 @@ class BirdLocationClient {
 
                 try {
                     results = refreshItemsFromMobileServiceTable();
-                } catch (final Exception e){
-//                    createAndShowDialogFromTask(e, "Error");
+                } catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
                 }
 
                 return null;
@@ -203,11 +192,7 @@ class BirdLocationClient {
      * @return
      */
     private AsyncTask<Void, Void, Void> runAsyncTask(AsyncTask<Void, Void, Void> task) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        } else {
-            return task.execute();
-        }
+        return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private class ProgressFilter implements ServiceFilter {
