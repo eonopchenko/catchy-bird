@@ -176,7 +176,7 @@ class BirdLocationClient {
                     syncContext.initialize(localStore, handler).get();
 
                 } catch (final Exception e) {
-//                    createAndShowDialogFromTask(e, "Error");
+                    e.printStackTrace();
                 }
 
                 return null;
