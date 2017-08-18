@@ -1,13 +1,20 @@
 package derbyapps.ac.nz.catchybird;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.StrictMode;
+import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.Switch;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -20,7 +27,11 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,6 +40,8 @@ import java.util.List;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback, BirdLocationAvailableListener, BirdFilterListener {
 
+    private static final int ACTIVITY_START_CAMERA_APP = 0;
+    private String mImageFileLocation = "";
     GoogleMap mGoogleMap;
     MapView mMapView;
     View mView;
@@ -91,12 +104,21 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, BirdLoc
         ListView lvBirdList = (ListView) mView.findViewById(R.id.lvBirdList);
         lvBirdList.setAdapter(adapter);
 
-        ((ProgressBar)mView.findViewById(R.id.progressBar)).setVisibility(View.INVISIBLE);
+        mView.findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == ACTIVITY_START_CAMERA_APP && resultCode == Activity.RESULT_OK) {
+        }
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
     }
 
     @Override
@@ -113,7 +135,40 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, BirdLoc
                 }
             }
         });
+
+        FloatingActionButton btnCamera = (FloatingActionButton) mView.findViewById(R.id.btnCamera);
+        btnCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent callCameraApplicationIntent = new Intent();
+                callCameraApplicationIntent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                File photoFile = null;
+                try {
+                    photoFile = createImageFile();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                callCameraApplicationIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+
+                startActivityForResult(callCameraApplicationIntent, ACTIVITY_START_CAMERA_APP);
+            }
+        });
         return mView;
+    }
+
+    File createImageFile() throws IOException {
+
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "IMAGE_" + timeStamp + "_";
+        File storageDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+
+        File image = File.createTempFile(imageFileName,".jpg", storageDirectory);
+        mImageFileLocation = image.getAbsolutePath();
+
+        return image;
+
     }
 
     @Override
@@ -131,7 +186,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, BirdLoc
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        MapsInitializer.initialize(getContext());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            MapsInitializer.initialize(getContext());
+        }
 
         mGoogleMap = googleMap;
         mGoogleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);

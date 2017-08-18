@@ -6,7 +6,7 @@ android {
     defaultConfig {
         applicationId "derbyapps.ac.nz.catchybird"
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 23
         multiDexEnabled = true
         versionCode 1
         versionName "1.0"

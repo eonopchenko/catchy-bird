@@ -1,9 +1,7 @@
 package derbyapps.ac.nz.catchybird;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.os.Build;
 
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
